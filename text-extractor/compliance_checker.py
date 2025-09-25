@@ -1,8 +1,3 @@
-"""
-MDONER/NEC DPR Compliance Checker
-AI-powered document compliance validation system
-"""
-
 import json
 import re
 from typing import Dict, List, Any, Tuple
@@ -11,16 +6,13 @@ from datetime import datetime
 from difflib import SequenceMatcher
 import logging
 
-# Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
 class DPRComplianceChecker:
-    """AI-powered compliance checker for MDONER/NEC DPR guidelines"""
     
     def __init__(self, guidelines_path: str = "mdoner_guidelines.json"):
-        """Initialize with guidelines file"""
         self.guidelines_path = Path(guidelines_path)
         self.guidelines = self._load_guidelines()
         self.required_sections = self.guidelines["mdoner_dpr_guidelines"]["required_sections"]
@@ -29,7 +21,6 @@ class DPRComplianceChecker:
         self.special_requirements = self.guidelines["mdoner_dpr_guidelines"]["special_requirements"]
     
     def _load_guidelines(self) -> Dict:
-        """Load MDONER guidelines from JSON file"""
         try:
             with open(self.guidelines_path, 'r', encoding='utf-8') as f:
                 return json.load(f)
@@ -41,11 +32,9 @@ class DPRComplianceChecker:
             raise
     
     def _similarity_score(self, text1: str, text2: str) -> float:
-        """Calculate similarity between two text strings"""
         return SequenceMatcher(None, text1.lower(), text2.lower()).ratio()
     
     def _find_section_in_text(self, text: str, section_keywords: List[str]) -> Dict:
-        """Find section content in document text using fuzzy matching"""
         text_lower = text.lower()
         lines = text.split('\n')
         
@@ -58,18 +47,15 @@ class DPRComplianceChecker:
                 # Calculate similarity
                 similarity = self._similarity_score(line_clean, keyword_phrase.lower())
                 
-                # Also check if keywords are present
                 keyword_words = keyword_phrase.lower().split()
                 words_found = sum(1 for word in keyword_words if word in line_clean)
                 keyword_coverage = words_found / len(keyword_words) if keyword_words else 0
                 
-                # Combined confidence score
                 confidence = (similarity * 0.6) + (keyword_coverage * 0.4)
                 
                 if confidence > best_match["confidence"] and confidence > 0.4:
-                    # Extract content around this line
                     start_idx = max(0, i - 2)
-                    end_idx = min(len(lines), i + 20)  # Get reasonable content chunk
+                    end_idx = min(len(lines), i + 20)
                     content = '\n'.join(lines[start_idx:end_idx])
                     
                     best_match = {
@@ -83,7 +69,6 @@ class DPRComplianceChecker:
         return best_match
     
     def _check_financial_details(self, text: str) -> Dict:
-        """Check for presence of financial details and budget information"""
         financial_patterns = [
             r'(?:rs\.?|rupees?|₹|inr)\s*\d+(?:,\d+)*(?:\.\d+)?(?:\s*(?:crore|lakh|thousand))?',
             r'\d+(?:,\d+)*(?:\.\d+)?\s*(?:crore|lakh|thousand)',
@@ -101,11 +86,10 @@ class DPRComplianceChecker:
         return {
             "has_financial_data": len(financial_matches) > 0,
             "financial_mentions": len(financial_matches),
-            "examples": financial_matches[:5]  # First 5 matches
+            "examples": financial_matches[:5]
         }
     
     def _check_technical_specifications(self, text: str) -> Dict:
-        """Check for technical specifications and implementation details"""
         technical_patterns = [
             r'specification[s]?',
             r'technical\s+detail[s]?',

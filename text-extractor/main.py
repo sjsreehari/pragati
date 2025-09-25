@@ -4,7 +4,6 @@ import sys
 import argparse
 from pathlib import Path
 
-# Import compliance checker (optional - will work without it)
 try:
     from compliance_checker import DPRComplianceChecker
     COMPLIANCE_AVAILABLE = True
@@ -19,10 +18,8 @@ def main():
     parser.add_argument("filename", help="Input filename (relative to input/ directory)")
     parser.add_argument("--format", "-f", choices=["txt", "json", "both"], default="json", 
                        help="Output format: txt, json, or both (default: json)")
-    parser.add_argument("--compliance", "-c", action="store_true",
-                       help="Run MDONER/NEC DPR compliance check (requires compliance_checker.py)")
-    parser.add_argument("--html-report", action="store_true",
-                       help="Generate HTML compliance report (use with --compliance)")
+    parser.add_argument("--compliance", "-c", action="store_true", help="Run MDONER/NEC DPR compliance check")
+    parser.add_argument("--html-report", action="store_true", help="Generate HTML compliance report")
     
     # Handle legacy usage (backward compatibility)
     if len(sys.argv) == 2 and not sys.argv[1].startswith('-'):
@@ -67,28 +64,23 @@ def main():
             print(f"  - Total words: {stats['total_words']}")
             print(f"  - Extraction method: {extraction_method}")
         
-        # Run compliance check if requested
         if run_compliance:
             if not COMPLIANCE_AVAILABLE:
-                print("\nWarning: Compliance checker not available. Please ensure compliance_checker.py and mdoner_guidelines.json are present.")
+                print("\nWarning: Compliance checker not available.")
             else:
                 print("\nRunning MDONER/NEC DPR compliance check...")
                 
                 try:
-                    # Initialize compliance checker
                     checker = DPRComplianceChecker("mdoner_guidelines.json")
                     
-                    # Get document index if JSON was created
                     document_index = []
                     if json_data and json_data.get("index"):
                         document_index = json_data["index"]
                     else:
                         document_index = extract_document_index(clean_text_content)
                     
-                    # Run compliance analysis
                     compliance_results = checker.check_compliance(clean_text_content, document_index)
                     
-                    # Save compliance results
                     base_name = Path(filename).stem
                     compliance_json = os.path.join(OUTPUT_DIR, f"{base_name}_compliance.json")
                     
@@ -99,14 +91,12 @@ def main():
                     outputs.append(compliance_json)
                     print(f"Compliance results saved to: {compliance_json}")
                     
-                    # Generate HTML report if requested
                     if generate_html:
                         html_report = os.path.join(OUTPUT_DIR, f"{base_name}_compliance_report.html")
                         checker.generate_report_html(compliance_results, html_report)
                         outputs.append(html_report)
                         print(f"HTML compliance report saved to: {html_report}")
                     
-                    # Print compliance summary
                     score = compliance_results['overall_score']
                     level = compliance_results['compliance_level'].replace('_', ' ').title()
                     print(f"\nCompliance Summary:")
@@ -115,18 +105,17 @@ def main():
                     print(f"  - Sections Found: {sum(1 for s in compliance_results['section_analysis'].values() if s['found'])}/{len(compliance_results['section_analysis'])}")
                     
                     if score < 70:
-                        print(f"  - Status: ⚠️ Needs improvement to meet MDONER/NEC standards")
+                        print(f"  - Status: ⚠️ Needs improvement")
                     else:
-                        print(f"  - Status: ✅ Meets basic compliance requirements")
+                        print(f"  - Status: ✅ Meets requirements")
                 
                 except FileNotFoundError:
-                    print("Error: mdoner_guidelines.json not found. Please ensure the guidelines file is present.")
+                    print("Error: mdoner_guidelines.json not found.")
                 except Exception as e:
                     print(f"Error during compliance check: {e}")
         
         print(f"\nExtraction complete! Output files: {', '.join(outputs)}")
         
-        # Return appropriate exit code based on compliance if checked
         if run_compliance and COMPLIANCE_AVAILABLE and 'compliance_results' in locals():
             return 0 if compliance_results['overall_score'] >= 70 else 1
         
