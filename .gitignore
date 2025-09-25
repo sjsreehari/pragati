@@ -1,4 +1,6 @@
+# ========================
 # Python
+# ========================
 __pycache__/
 *.py[cod]
 *$py.class
@@ -59,15 +61,6 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
 # Spyder project settings
 .spyderproject
 .spyproject
@@ -92,23 +85,20 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+# ========================
 # Project specific
-# Uncomment the following lines if you want to ignore input/output files
-# input/*.pdf
-# input/*.docx
-# input/*.doc
-# output/*.txt
-
-# Temporary files
-*.tmp
-*.temp
-temp/
+# ========================
 
 # Logs
 *.log
 logs/
 
-# Test coverage
+# Temp
+*.tmp
+*.temp
+temp/
+
+# Coverage
 htmlcov/
 .coverage
 .coverage.*
@@ -117,3 +107,44 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
+
+# ========================
+# Website / Frontend (React, Next.js, etc.)
+# ========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Production build
+/build
+/.next
+/out
+/.nuxt
+/.vercel
+/dist
+
+# Static assets cache
+.cache/
+.cache-loader/
+.next/cache/
+
+# Local environment
+*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ========================
+# ML / Model storage
+# ========================
+models/*.pkl
+models/*.joblib
+
+# ========================
+# OS generated
+# ========================
+*.DS_Store
+Thumbs.db
