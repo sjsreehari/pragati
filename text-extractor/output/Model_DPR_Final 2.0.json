@@ -1,16 +1,32 @@
 {
   "metadata": {
     "original_filename": "Model_DPR_Final 2.0.pdf",
-    "extraction_timestamp": "2025-09-25T09:51:28.658143",
+    "extraction_timestamp": "2025-09-25T10:03:48.515680",
     "extraction_method": "pdf_extraction",
     "raw_text_length": 76455,
     "cleaned_text_length": 64920,
     "output_format": "json",
-    "has_index": false
+    "has_index": true
   },
-  "index": [],
+  "index": [
+    {
+      "item_number": "7",
+      "title": "INTRODUCTION ABOUT THE PROJECT",
+      "page_number": "N/A"
+    },
+    {
+      "item_number": "8",
+      "title": "INTRODUCTION ABOUT THE PROJECT",
+      "page_number": "N/A"
+    },
+    {
+      "item_number": "1",
+      "title": "Introduction about the Project",
+      "page_number": "N/A"
+    }
+  ],
   "statistics": {
-    "total_index_items": 0,
+    "total_index_items": 3,
     "total_characters": 64920,
     "total_words": 9545,
     "total_lines": 2748,

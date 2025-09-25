@@ -1,12 +1,15 @@
-"""
-DPR Text Extractor (Multilingual)
-Main script to extract text from DPR documents in any language, especially Indian Northeast languages.
-Supports both TXT and JSON output formats with text cleaning capabilities.
-"""
-from utils import load_file, extract_text, create_txt_file, save_text, create_json_file, save_text_as_json
+from utils import load_file, extract_text, create_txt_file, save_text, create_json_file, save_text_as_json, clean_text, extract_document_index
 import os
 import sys
 import argparse
+from pathlib import Path
+
+# Import compliance checker (optional - will work without it)
+try:
+    from compliance_checker import DPRComplianceChecker
+    COMPLIANCE_AVAILABLE = True
+except ImportError:
+    COMPLIANCE_AVAILABLE = False
 
 INPUT_DIR = "input"
 OUTPUT_DIR = "output"
@@ -16,15 +19,23 @@ def main():
     parser.add_argument("filename", help="Input filename (relative to input/ directory)")
     parser.add_argument("--format", "-f", choices=["txt", "json", "both"], default="json", 
                        help="Output format: txt, json, or both (default: json)")
+    parser.add_argument("--compliance", "-c", action="store_true",
+                       help="Run MDONER/NEC DPR compliance check (requires compliance_checker.py)")
+    parser.add_argument("--html-report", action="store_true",
+                       help="Generate HTML compliance report (use with --compliance)")
     
     # Handle legacy usage (backward compatibility)
     if len(sys.argv) == 2 and not sys.argv[1].startswith('-'):
         filename = sys.argv[1]
         output_format = "json"
+        run_compliance = False
+        generate_html = False
     else:
         args = parser.parse_args()
         filename = args.filename
         output_format = args.format
+        run_compliance = args.compliance
+        generate_html = args.html_report
     
     input_path = os.path.join(INPUT_DIR, filename)
     

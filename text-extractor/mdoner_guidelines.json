@@ -1,0 +1,120 @@
+{
+  "mdoner_dpr_guidelines": {
+    "version": "1.0",
+    "description": "Ministry of Development of North Eastern Region (MDONER) Detailed Project Report (DPR) Guidelines",
+    "last_updated": "2024-09-25",
+    "required_sections": {
+      "executive_summary": {
+        "title": "Executive Summary",
+        "required": true,
+        "weight": 10,
+        "description": "Brief overview of the project including objectives, scope, and expected outcomes",
+        "keywords": ["executive summary", "project overview", "key highlights"]
+      },
+      "project_introduction": {
+        "title": "Introduction about the Project",
+        "required": true,
+        "weight": 15,
+        "description": "Detailed introduction covering project background, rationale, and context",
+        "keywords": ["introduction", "project background", "rationale", "context"]
+      },
+      "objectives": {
+        "title": "Project Objectives",
+        "required": true,
+        "weight": 12,
+        "description": "Clear statement of project goals and expected outcomes",
+        "keywords": ["objectives", "goals", "targets", "outcomes", "purpose"]
+      },
+      "beneficiaries": {
+        "title": "Project Beneficiaries",
+        "required": true,
+        "weight": 10,
+        "description": "Identification of target beneficiaries and impact assessment",
+        "keywords": ["beneficiaries", "target population", "impact", "stakeholders"]
+      },
+      "technical_details": {
+        "title": "Technical Specifications",
+        "required": true,
+        "weight": 15,
+        "description": "Technical design, specifications, and implementation details",
+        "keywords": ["technical", "specifications", "design", "implementation", "methodology"]
+      },
+      "financial_analysis": {
+        "title": "Financial Analysis and Budget",
+        "required": true,
+        "weight": 15,
+        "description": "Cost estimates, budget breakdown, and financial viability",
+        "keywords": ["budget", "cost", "financial", "estimates", "funding", "expenditure"]
+      },
+      "implementation_plan": {
+        "title": "Implementation Plan and Timeline",
+        "required": true,
+        "weight": 12,
+        "description": "Project phases, milestones, and timeline for execution",
+        "keywords": ["implementation", "timeline", "phases", "milestones", "schedule"]
+      },
+      "sustainability": {
+        "title": "Sustainability and Maintenance",
+        "required": true,
+        "weight": 8,
+        "description": "Long-term sustainability measures and maintenance plans",
+        "keywords": ["sustainability", "maintenance", "operation", "long-term"]
+      },
+      "risk_assessment": {
+        "title": "Risk Assessment and Mitigation",
+        "required": false,
+        "weight": 3,
+        "description": "Identification of risks and mitigation strategies",
+        "keywords": ["risk", "mitigation", "challenges", "contingency"]
+      }
+    },
+    "quality_checks": {
+      "minimum_sections_required": 7,
+      "minimum_score_threshold": 70,
+      "document_length_minimum": 5000,
+      "financial_details_required": true,
+      "technical_specifications_required": true
+    },
+    "compliance_levels": {
+      "excellent": {
+        "score_range": [90, 100],
+        "description": "Fully compliant with all MDONER/NEC guidelines",
+        "color": "green"
+      },
+      "good": {
+        "score_range": [75, 89],
+        "description": "Mostly compliant with minor gaps",
+        "color": "light_green"
+      },
+      "satisfactory": {
+        "score_range": [60, 74],
+        "description": "Basic compliance achieved but improvements needed",
+        "color": "yellow"
+      },
+      "needs_improvement": {
+        "score_range": [40, 59],
+        "description": "Significant gaps in compliance",
+        "color": "orange"
+      },
+      "non_compliant": {
+        "score_range": [0, 39],
+        "description": "Does not meet MDONER/NEC standards",
+        "color": "red"
+      }
+    },
+    "special_requirements": {
+      "northeast_focus": {
+        "description": "Project should demonstrate relevance to Northeast India development",
+        "keywords": ["northeast", "north east", "northeastern", "ne india", "assam", "manipur", "meghalaya", "mizoram", "nagaland", "tripura", "arunachal pradesh", "sikkim"]
+      },
+      "tribal_consideration": {
+        "description": "Should consider impact on tribal communities",
+        "keywords": ["tribal", "indigenous", "community", "ethnic", "traditional"]
+      },
+      "environmental_clearance": {
+        "description": "Environmental impact assessment if applicable",
+        "keywords": ["environment", "environmental", "clearance", "impact", "ecology"]
+      }
+    }
+  }
+}
