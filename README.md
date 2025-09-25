@@ -1,96 +1,54 @@
-# DPR Feasibility Analysis Platform
+# PRAGATI
+**Project Review and Governance AI-based Transparency Interface**
 
-A comprehensive AI-powered system for automated analysis of Detailed Project Reports (DPRs) with feasibility assessment, compliance validation, and interactive data visualization.
+An enterprise-grade AI platform for automated Detailed Project Report (DPR) analysis with ML-driven feasibility assessment and governance compliance validation.
 
-## Overview
-
-The DPR Feasibility Analysis Platform is an enterprise-grade solution designed to automate the evaluation of government project proposals. It combines machine learning algorithms, document processing capabilities, and modern web technologies to provide accurate feasibility predictions and compliance assessments.
-
-## Architecture
+## System Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        Web Frontend (React)                    │
-│  - Interactive Dashboard with Chart.js Integration            │
-│  - Real-time Analysis Visualization                           │
-│  - Responsive UI with Professional Design                     │
-└─────────────────────────────────────────────────────────────────┘
-                                    │
-                                    │ HTTP/REST API
-                                    ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                      Web Backend (Flask)                       │
-│  - RESTful API Endpoints                                      │
-│  - File Upload Management                                     │
-│  - Process Orchestration                                      │
-└─────────────────────────────────────────────────────────────────┘
-                                    │
-                    ┌───────────────┼───────────────┐
-                    ▼               ▼               ▼
-          ┌─────────────┐  ┌─────────────┐  ┌─────────────┐
-          │Text         │  │AI/ML        │  │Compliance   │
-          │Extractor    │  │Component    │  │Checker      │
-          │             │  │             │  │             │
-          │- PDF Parser │  │- XGBoost    │  │- MDONER     │
-          │- OCR Engine │  │- TF-IDF     │  │- NEC Rules  │
-          │- Text Clean │  │- Prediction │  │- Validation │
-          └─────────────┘  └─────────────┘  └─────────────┘
+Frontend (React 18.2 + Chart.js 4.4) ← REST API → Flask 2.3.3 Backend
+                                                          ↓
+                                    ┌─────────────────────┼─────────────────────┐
+                                    ▼                     ▼                     ▼
+                            Text Extraction        XGBoost ML Engine    Compliance Checker
+                           (pdfminer + OCR)        (91% accuracy)       (MDONER/NEC)
 ```
 
-## Technical Specifications
+## Core Technologies
 
-### Core Technologies
+| Component | Stack | Purpose |
+|-----------|-------|---------|
+| **ML Engine** | XGBoost 3.0.5 + scikit-learn 1.7.2 | Feasibility classification (91% accuracy) |
+| **NLP Pipeline** | TF-IDF + pandas 2.3.0 | Feature extraction & text vectorization |
+| **Document Processing** | pdfminer.six + pytesseract | PDF parsing & OCR processing |
+| **Backend API** | Flask 2.3.3 + Flask-CORS 4.0.0 | RESTful services & CORS handling |
+| **Frontend** | React 18.2.0 + Chart.js 4.4.0 | Interactive dashboard with real-time viz |
+| **Charts Integration** | react-chartjs-2 3.3.0 | Doughnut, Bar, Line charts for insights |
 
-| Component | Technology | Version | Purpose |
-|-----------|------------|---------|---------|
-| **Backend API** | Flask | 2.3.3 | RESTful API server |
-| **CORS Handler** | Flask-CORS | 4.0.0 | Cross-origin resource sharing |
-| **Frontend** | React | 18.2.0 | Single-page application |
-| **Visualization** | Chart.js | 4.4.0 | Interactive data charts |
-| **React Charts** | react-chartjs-2 | 3.3.0 | React Chart.js integration |
-| **ML Framework** | XGBoost | 3.0.5 | Gradient boosting classifier |
-| **Data Processing** | pandas | 2.3.0 | Data manipulation |
-| **Text Vectorization** | scikit-learn | 1.7.2 | TF-IDF and ML utilities |
-| **PDF Processing** | pdfminer.six | 20250506 | PDF text extraction |
-| **OCR Engine** | pytesseract | 0.3.13 | Optical character recognition |
+## Machine Learning Pipeline
 
-### Machine Learning Pipeline
-
-#### Model Architecture
-- **Algorithm**: XGBoost Classifier
-- **Features**: TF-IDF vectors + engineered numerical features
-- **Training Accuracy**: 91%
-- **Validation Method**: Cross-validation with stratified sampling
-- **Output**: Probability distributions with confidence scoring
-
-#### Feature Engineering
-```python
-# Text Features
-- TF-IDF vectors (max_features=5000)
-- N-gram analysis (1-3 grams)
-- Document length statistics
-- Keyword density analysis
-
-# Numerical Features
-- Budget analysis (crores)
-- Timeline estimation (months)
-- Resource allocation metrics
-- Compliance score computation
-```
-
-#### Model Configuration
+### Algorithm Configuration
 ```python
 XGBClassifier(
-    n_estimators=300,
-    learning_rate=0.1,
-    max_depth=6,
-    subsample=0.8,
-    colsample_bytree=0.8,
-    tree_method="gpu_hist",
-    predictor="gpu_predictor",
-    random_state=42
+    n_estimators=300,      # Ensemble size
+    learning_rate=0.1,     # Gradient step size
+    max_depth=6,           # Tree complexity
+    tree_method="gpu_hist", # GPU acceleration
+    predictor="gpu_predictor"
 )
 ```
+
+### Feature Engineering
+- **Text Features**: TF-IDF vectors (5K features, 1-3 grams)
+- **Numerical Features**: Budget analysis, timeline estimation
+- **Domain Features**: MDONER compliance score, technical feasibility
+- **Output**: Probability distributions + confidence scoring (0-100%)
+
+### Training Dataset
+- **Size**: 110 DPR entries with ground truth labels
+- **Classes**: Feasible (60%) vs Risky (40%) projects
+- **Domains**: Infrastructure, Healthcare, Education, Tourism, Technology
+- **Geography**: Northeast India (rural + urban projects)
 
 ## System Requirements
 
