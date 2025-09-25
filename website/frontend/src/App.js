@@ -114,7 +114,6 @@ function App() {
     { id: 'projects', label: 'Projects', icon: '📁' },
     { id: 'compliance', label: 'Compliance', icon: '✅' },
     { id: 'benchmarks', label: 'Benchmarks', icon: '📊' },
-    { id: 'workflows', label: 'Workflows', icon: '⚡' },
     { id: 'audit', label: 'Audit', icon: '🔍' },
     { id: 'settings', label: 'Settings', icon: '⚙️' }
   ];
@@ -138,7 +137,7 @@ function App() {
               <span className="file-type">DOC</span>
               <span className="file-type">DOCX</span>
             </div>
-            <p className="size-limit">Maximum file size: 16MB</p>
+            <p className="size-limit">Let the AI do it</p>
           </div>
         </div>
       </div>
@@ -597,7 +596,6 @@ function App() {
           </div>
         </div>
         <div className="top-bar-right">
-          <button className="notification-btn">🔔</button>
           <button className="help-btn">❓</button>
           <div className="profile-menu">
             <div className="profile-avatar">👤</div>
