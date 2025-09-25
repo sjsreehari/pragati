@@ -60,13 +60,13 @@ try:
                 
                 if 'explanation' in result and result['explanation']:
                     exp = result['explanation']
-                    print(f"✅ Interpretation: {exp.get('interpretation', 'N/A')[:100]}...")
-                    print(f"✅ Top Features Count: {len(exp.get('top_features', []))}")
-                    print(f"✅ Budget Detected: ₹{exp.get('numeric_features', {}).get('budget_crores', 0)} crores")
-                    print(f"✅ Timeline Detected: {exp.get('numeric_features', {}).get('timeline_months', 0)} months")
+                    print(f"* Interpretation: {exp.get('interpretation', 'N/A')[:100]}...")
+                    print(f"* Top Features Count: {len(exp.get('top_features', []))}")
+                    print(f"* Budget Detected: ₹{exp.get('numeric_features', {}).get('budget_crores', 0)} crores")
+                    print(f"* Timeline Detected: {exp.get('numeric_features', {}).get('timeline_months', 0)} months")
                 
             except Exception as e:
-                print(f"❌ Test failed with exception: {str(e)}")
+                print(f"ERROR: Test failed with exception: {str(e)}")
                 import traceback
                 traceback.print_exc()
         

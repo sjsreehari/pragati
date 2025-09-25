@@ -110,12 +110,12 @@ function App() {
   };
 
   const sidebarItems = [
-    { id: 'analyze', label: 'Analyze', icon: '🔍' },
-    { id: 'projects', label: 'Projects', icon: '📁' },
-    { id: 'compliance', label: 'Compliance', icon: '✅' },
-    { id: 'benchmarks', label: 'Benchmarks', icon: '📊' },
-    { id: 'audit', label: 'Audit', icon: '🔍' },
-    { id: 'settings', label: 'Settings', icon: '⚙️' }
+    { id: 'analyze', label: 'Analyze', icon: 'A' },
+    { id: 'projects', label: 'Projects', icon: 'P' },
+    { id: 'compliance', label: 'Compliance', icon: 'C' },
+    { id: 'benchmarks', label: 'Benchmarks', icon: 'B' },
+    { id: 'audit', label: 'Audit', icon: 'D' },
+    { id: 'settings', label: 'Settings', icon: 'S' }
   ];
 
   const renderAnalyzePage = () => (
@@ -166,7 +166,7 @@ function App() {
         <h3>Analysis Queue</h3>
         {jobQueue.length === 0 ? (
           <div className="empty-state">
-            <div className="empty-icon">📊</div>
+            <div className="empty-icon">No Data</div>
             <p>No active analyses</p>
             <button className="start-btn" onClick={startWizard}>Start Analysis</button>
           </div>
@@ -427,7 +427,7 @@ function App() {
                   id="wizardFileInput"
                 />
                 <label htmlFor="wizardFileInput" className="file-drop-zone">
-                  <div className="upload-icon">📁</div>
+                  <div className="upload-icon">Upload</div>
                   <p>Drop files here or click to browse</p>
                   <div className="validation-chips">
                     <span className="chip success">PDF supported</span>
@@ -592,11 +592,11 @@ function App() {
           <h1 className="product-name">DPR Analysis Platform</h1>
           <div className="global-search">
             <input type="text" placeholder="Search projects, runs, rules..." />
-            <span className="search-icon">🔍</span>
+            <span className="search-icon">Search</span>
           </div>
         </div>
         <div className="top-bar-right">
-          <button className="help-btn">❓</button>
+          <button className="help-btn">?</button>
           <div className="profile-menu">
             <div className="profile-avatar">👤</div>
             <div className="profile-info">
