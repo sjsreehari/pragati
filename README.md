@@ -5,15 +5,6 @@ An enterprise-grade AI platform for automated Detailed Project Report (DPR) anal
 
 ## System Architecture
 
-```
-Frontend (React 18.2 + Chart.js 4.4) ← REST API → Flask 2.3.3 Backend
-                                                          ↓
-                                    ┌─────────────────────┼─────────────────────┐
-                                    ▼                     ▼                     ▼
-                            Text Extraction        XGBoost ML Engine    Compliance Checker
-                           (pdfminer + OCR)        (91% accuracy)       (MDONER/NEC)
-```
-
 ## Core Technologies
 
 | Component | Stack | Purpose |
@@ -68,117 +59,7 @@ XGBClassifier(
 | **Git** | Latest | Version control |
 | **Visual C++ Build Tools** | Latest | Python package compilation |
 
-## Installation Guide
 
-### 1. Environment Setup
-
-```bash
-# Clone repository
-git clone https://github.com/sjsreehari/Alt---F4.git
-cd "Hackathon SIH"
-
-# Create Python virtual environment
-python -m venv .venv
-
-# Activate virtual environment
-.venv\Scripts\activate  # Windows
-source .venv/bin/activate  # Linux/macOS
-```
-
-### 2. Backend Dependencies
-
-```bash
-# Install Python dependencies
-pip install -r requirements.txt
-
-# Install system dependencies (Ubuntu/Debian)
-sudo apt-get update
-sudo apt-get install -y poppler-utils tesseract-ocr
-```
-
-### 3. Frontend Dependencies
-
-```bash
-# Navigate to frontend directory
-cd website/frontend
-
-# Install Node.js dependencies
-npm install
-
-# Return to project root
-cd ../..
-```
-
-### 4. Model Initialization
-
-```bash
-# Navigate to AI directory
-cd ai
-
-# Train initial models (if not pre-trained)
-python src/train.py
-
-# Test model functionality
-python src/test_model.py
-
-# Return to project root
-cd ..
-```
-
-## Quick Setup
-
-### Prerequisites
-- Python 3.11+ with GPU support (optional)
-- Node.js 18+ and npm
-- Git for repository management
-
-### Installation & Deployment
-```bash
-# Clone and setup
-git clone https://github.com/sjsreehari/Alt---F4.git
-cd "Hackathon SIH" && .\enhanced_setup.bat
-
-# Frontend (port 3000)
-cd website/frontend && npm install && npm start
-
-# Backend API (port 5000)
-cd website/backend && pip install -r requirements.txt && python app.py
-```
-
-## Development Workflow
-
-## Performance Metrics
-
-| Metric | Value | Context |
-|--------|--------|---------|
-| **ML Accuracy** | 91% | Cross-validated on 110 DPRs |
-| **Processing Speed** | <2s | Average PDF analysis time |
-| **API Response** | <500ms | Prediction endpoint latency |
-| **Model Size** | 15.2 MB | Optimized for deployment |
-
-## Key Features
-
-- **Real-time Visualization**: Interactive Chart.js dashboards
-- **Confidence Scoring**: ML uncertainty quantification  
-- **Compliance Automation**: MDONER guideline validation
-- **Multi-format Support**: PDF + OCR for scanned documents
-- **Enterprise Ready**: Production-grade CI/CD pipeline
-
-## Deployment
-
-### CI/CD Pipeline
-
-The project includes a comprehensive GitHub Actions workflow:
-
-```yaml
-# Automated pipeline includes:
-- Frontend build validation
-- Backend API testing  
-- AI model verification
-- Code quality assessment
-- Automatic approval (75%+ success rate)
-- Staging deployment
-```
 
 ### Production Deployment
 
