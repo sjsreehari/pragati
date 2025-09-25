@@ -5,6 +5,9 @@ An enterprise-grade AI platform for automated Detailed Project Report (DPR) anal
 
 ## System Architecture
 
+<img src="./assets/Mermaid%20Chart%20-%20Create%20complex%2C%20visual%20diagrams%20with%20text.%20A%20smarter%20way%20of%20creating%20diagrams.-2025-09-25-105253.png" alt="System Architecture Diagram" width="800">
+
+
 ## Core Technologies
 
 | Component | Stack | Purpose |
