@@ -175,7 +175,7 @@ def extract_document_index(text: str) -> List[Dict]:
                     })
                     break
         
-        
+
         # Alternative pattern: "1. TITLE" format
         match = re.match(r'^(\d+)\.\s*(.+)$', line)
         if match:
@@ -236,5 +236,6 @@ def extract_headings_from_content(text: str) -> List[Dict]:
                     "title": title,
                     "page_number": page_num
                 })
+    
     
     return headings
