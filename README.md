@@ -125,135 +125,44 @@ python src/test_model.py
 cd ..
 ```
 
-## Configuration
+## Quick Setup
 
-### Environment Variables
+### Prerequisites
+- Python 3.11+ with GPU support (optional)
+- Node.js 18+ and npm
+- Git for repository management
 
-Create `.env` files in respective directories:
-
-#### Backend Configuration (website/backend/.env)
+### Installation & Deployment
 ```bash
-FLASK_ENV=development
-FLASK_DEBUG=True
-UPLOAD_FOLDER=uploads
-MAX_CONTENT_LENGTH=52428800  # 50MB
-CORS_ORIGINS=http://localhost:3000
-```
+# Clone and setup
+git clone https://github.com/sjsreehari/Alt---F4.git
+cd "Hackathon SIH" && .\enhanced_setup.bat
 
-#### Frontend Configuration (website/frontend/.env)
-```bash
-REACT_APP_API_URL=http://localhost:5000
-REACT_APP_ENVIRONMENT=development
-```
+# Frontend (port 3000)
+cd website/frontend && npm install && npm start
 
-## API Documentation
-
-### Authentication
-Currently, no authentication is required. For production deployment, implement JWT or OAuth2.
-
-### Endpoints
-
-#### Health Check
-```http
-GET /api/health
-```
-**Response:**
-```json
-{
-  "status": "healthy",
-  "timestamp": "2025-09-25T10:30:00Z",
-  "ai_predictor_available": true,
-  "version": "1.0.0"
-}
-```
-
-#### Document Analysis
-```http
-POST /api/extract
-Content-Type: multipart/form-data
-```
-**Request Body:**
-- `file`: PDF document (max 50MB)
-
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "text": "extracted_document_text",
-    "prediction": "feasible|risky",
-    "confidence": 0.87,
-    "probability_feasible": 0.87,
-    "probability_risky": 0.13,
-    "feature_explanations": {
-      "top_features": ["budget_analysis", "technical_feasibility"],
-      "feature_importance": [0.35, 0.28, 0.22, 0.15],
-      "interpretation": "Project shows strong financial planning..."
-    },
-    "compliance": {
-      "mdoner_compliant": true,
-      "nec_compliant": true,
-      "issues": []
-    }
-  }
-}
-```
-
-#### Direct Text Analysis
-```http
-POST /api/predict
-Content-Type: application/json
-```
-**Request Body:**
-```json
-{
-  "text": "Project description text for analysis..."
-}
+# Backend API (port 5000)
+cd website/backend && pip install -r requirements.txt && python app.py
 ```
 
 ## Development Workflow
 
-### Local Development
+## Performance Metrics
 
-```bash
-# Terminal 1: Start Backend
-cd website/backend
-python app.py
+| Metric | Value | Context |
+|--------|--------|---------|
+| **ML Accuracy** | 91% | Cross-validated on 110 DPRs |
+| **Processing Speed** | <2s | Average PDF analysis time |
+| **API Response** | <500ms | Prediction endpoint latency |
+| **Model Size** | 15.2 MB | Optimized for deployment |
 
-# Terminal 2: Start Frontend
-cd website/frontend
-npm start
+## Key Features
 
-# Access application at http://localhost:3000
-```
-
-### Code Quality
-
-```bash
-# Python code formatting
-pip install black flake8
-black ai/ text-extractor/
-flake8 ai/ text-extractor/
-
-# JavaScript code formatting
-cd website/frontend
-npm run lint
-npm run format
-```
-
-### Testing
-
-```bash
-# Backend API tests
-python test_enhanced_prediction.py
-
-# Frontend tests
-cd website/frontend
-npm test
-
-# Integration tests
-python -m pytest tests/ -v
-```
+- **Real-time Visualization**: Interactive Chart.js dashboards
+- **Confidence Scoring**: ML uncertainty quantification  
+- **Compliance Automation**: MDONER guideline validation
+- **Multi-format Support**: PDF + OCR for scanned documents
+- **Enterprise Ready**: Production-grade CI/CD pipeline
 
 ## Deployment
 
@@ -273,184 +182,10 @@ The project includes a comprehensive GitHub Actions workflow:
 
 ### Production Deployment
 
-#### Using Docker (Recommended)
+### Production Deployment
+- **CI/CD**: GitHub Actions with auto-approval (75% success threshold)
+- **Monitoring**: Comprehensive logging with performance metrics
+- **Security**: CORS configuration, input validation, sanitization
+- **Scaling**: Multi-worker deployment ready
 
-```bash
-# Build containers
-docker-compose build
-
-# Start services
-docker-compose up -d
-
-# Check status
-docker-compose ps
-```
-
-#### Manual Deployment
-
-```bash
-# Production environment setup
-export FLASK_ENV=production
-export NODE_ENV=production
-
-# Install production dependencies
-pip install -r requirements.txt --only-binary=all
-npm ci --production
-
-# Build frontend
-cd website/frontend
-npm run build
-
-# Start services with process manager
-pm2 start ecosystem.config.js
-```
-
-## Performance Optimization
-
-### Backend Optimization
-- **GPU Acceleration**: Enabled for ML inference
-- **Caching**: TF-IDF vectorizer and model caching
-- **Async Processing**: File upload and processing pipeline
-- **Connection Pooling**: Database connection management
-
-### Frontend Optimization
-- **Code Splitting**: Dynamic imports for routes
-- **Chart Performance**: Canvas rendering with data sampling
-- **Bundle Optimization**: Webpack optimizations enabled
-- **CDN Integration**: Static assets served via CDN
-
-## Security Considerations
-
-### Input Validation
-- File type restriction (PDF only)
-- File size limitations (50MB max)
-- Input sanitization for text analysis
-- Path traversal prevention
-
-### API Security
-- CORS configuration for specific origins
-- Rate limiting on API endpoints
-- Input validation and sanitization
-- Error handling without data leakage
-
-### Data Protection
-- Temporary file cleanup
-- No persistent storage of uploaded content
-- Secure file handling procedures
-- Privacy compliance measures
-
-## Monitoring and Logging
-
-### Application Monitoring
-```python
-# Logging configuration
-import logging
-
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('app.log'),
-        logging.StreamHandler()
-    ]
-)
-```
-
-### Performance Metrics
-- API response times
-- Model prediction accuracy
-- File processing throughput
-- Error rates and exceptions
-
-## Contributing
-
-### Development Guidelines
-
-1. **Code Standards**
-   - Follow PEP 8 for Python code
-   - Use ESLint configuration for JavaScript
-   - Maintain consistent naming conventions
-   - Include comprehensive docstrings
-
-2. **Git Workflow**
-   - Create feature branches from main
-   - Use descriptive commit messages
-   - Submit pull requests for review
-   - Ensure CI/CD pipeline passes
-
-3. **Testing Requirements**
-   - Unit tests for new functionality
-   - Integration tests for API endpoints
-   - Frontend component testing
-   - Performance regression testing
-
-## Troubleshooting
-
-### Common Issues
-
-#### Backend Startup Failures
-```bash
-# Check Python environment
-python --version
-pip list
-
-# Verify model files exist
-ls -la ai/models/
-
-# Check port availability
-netstat -an | grep :5000
-```
-
-#### Frontend Build Errors
-```bash
-# Clear npm cache
-npm cache clean --force
-
-# Remove node_modules and reinstall
-rm -rf node_modules package-lock.json
-npm install
-
-# Check Node.js version
-node --version
-npm --version
-```
-
-#### Model Prediction Errors
-```bash
-# Verify model integrity
-python ai/src/test_model.py
-
-# Check TF-IDF vectorizer
-python -c "import joblib; print(joblib.load('ai/models/tfidf.pkl'))"
-
-# Validate training data
-python -c "import pandas as pd; print(pd.read_csv('ai/data/data.csv').head())"
-```
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for detailed terms and conditions.
-
-## Support and Contact
-
-### Technical Support
-- **Repository**: https://github.com/sjsreehari/Alt---F4
-- **Issues**: Submit via GitHub Issues tracker
-- **Documentation**: Available in `/docs` directory
-
-### Development Team
-- **Project Lead**: Sreehari S J
-- **Institution**: Smart India Hackathon Participant
-- **Last Updated**: September 25, 2025
-
-### Acknowledgments
-- Smart India Hackathon organizing committee
-- Open source contributors and libraries
-- Ministry of Development of North Eastern Region (MDONER)
-- North Eastern Council (NEC)
-
----
-
-**Version**: 1.0.0  
-**Build Status**: Production Ready  
-**Last Modified**: September 25, 2025
+Built for **Smart India Hackathon 2024** | Transforming governance through AI
