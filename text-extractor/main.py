@@ -3,6 +3,7 @@ import os
 import sys
 import argparse
 from pathlib import Path
+from deep_translator import GoogleTranslator
 
 try:
     from compliance_checker import DPRComplianceChecker
@@ -20,6 +21,7 @@ def main():
                        help="Output format: txt, json, or both (default: both)")
     parser.add_argument("--compliance", "-c", action="store_true", help="Run MDONER/NEC DPR compliance check")
     parser.add_argument("--html-report", action="store_true", help="Generate HTML compliance report")
+    parser.add_argument("--translate", "-t", action="store_true", help="Translate extracted text to English before compliance check")
     
     # Handle legacy usage (backward compatibility)
     if len(sys.argv) == 2 and not sys.argv[1].startswith('-'):
@@ -27,100 +29,112 @@ def main():
         output_format = "both"
         run_compliance = False
         generate_html = False
+        translate = False
     else:
         args = parser.parse_args()
         filename = args.filename
         output_format = args.format
         run_compliance = args.compliance
         generate_html = args.html_report
-    
+        translate = args.translate
+
     input_path = os.path.join(INPUT_DIR, filename)
-    
+
     try:
         file = load_file(input_path)
         raw_text = extract_text(file, input_path)
         clean_text_content = clean_text(raw_text)
-        
+
+        # Translation step (optional, controlled by --translate)
+        translated_text = clean_text_content
+        if translate:
+            try:
+                print("Translating extracted text to English...")
+                translated_text = GoogleTranslator(source='auto', target='en').translate(clean_text_content)
+            except Exception as e:
+                print(f"Translation failed: {e}")
+                translated_text = clean_text_content  # fallback
+
         extraction_method = "pdf_extraction" if input_path.lower().endswith('.pdf') and clean_text_content.strip() else "ocr" if input_path.lower().endswith('.pdf') else "docx_extraction"
-        
+
         outputs = []
         json_data = None
-        
+
         if output_format in ["txt", "both"]:
             txt_filename = create_txt_file(filename)
-            save_text(clean_text_content, txt_filename)
+            save_text(translated_text, txt_filename)
             outputs.append(txt_filename)
             print(f"TXT output saved to: {txt_filename}")
-        
+
         if output_format in ["json", "both"]:
             json_filename = create_json_file(filename)
-            json_data = save_text_as_json(clean_text_content, json_filename, filename, extraction_method)
+            json_data = save_text_as_json(translated_text, json_filename, filename, extraction_method)
             outputs.append(json_filename)
             print(f"JSON output saved to: {json_filename}")
-            
+
             stats = json_data["statistics"]
             print(f"\nExtraction Summary:")
             print(f"  - Index entries: {stats['total_index_items']}")
             print(f"  - Total words: {stats['total_words']}")
             print(f"  - Extraction method: {extraction_method}")
-        
+
         if run_compliance:
             if not COMPLIANCE_AVAILABLE:
                 print("\nWarning: Compliance checker not available.")
             else:
                 print("\nRunning MDONER/NEC DPR compliance check...")
-                
+
                 try:
                     checker = DPRComplianceChecker("mdoner_guidelines.json")
-                    
+
                     document_index = []
                     if json_data and json_data.get("index"):
                         document_index = json_data["index"]
                     else:
-                        document_index = extract_document_index(clean_text_content)
-                    
-                    compliance_results = checker.check_compliance(clean_text_content, document_index)
-                    
+                        document_index = extract_document_index(translated_text)
+
+                    compliance_results = checker.check_compliance(translated_text, document_index)
+
                     base_name = Path(filename).stem
                     compliance_json = os.path.join(OUTPUT_DIR, f"{base_name}_compliance.json")
-                    
+
                     import json
                     with open(compliance_json, 'w', encoding='utf-8') as f:
                         json.dump(compliance_results, f, indent=2, ensure_ascii=False)
-                    
+
                     outputs.append(compliance_json)
                     print(f"Compliance results saved to: {compliance_json}")
-                    
+
                     if generate_html:
                         html_report = os.path.join(OUTPUT_DIR, f"{base_name}_compliance_report.html")
                         checker.generate_report_html(compliance_results, html_report)
                         outputs.append(html_report)
                         print(f"HTML compliance report saved to: {html_report}")
-                    
+
                     score = compliance_results['overall_score']
                     level = compliance_results['compliance_level'].replace('_', ' ').title()
                     print(f"\nCompliance Summary:")
                     print(f"  - Overall Score: {score}%")
                     print(f"  - Compliance Level: {level}")
                     print(f"  - Sections Found: {sum(1 for s in compliance_results['section_analysis'].values() if s['found'])}/{len(compliance_results['section_analysis'])}")
-                    
+
                     if score < 70:
                         print(f"  - Status: ⚠️ Needs improvement")
                     else:
                         print(f"  - Status: ✅ Meets requirements")
-                
+
                 except FileNotFoundError:
                     print("Error: mdoner_guidelines.json not found.")
                 except Exception as e:
                     print(f"Error during compliance check: {e}")
-        
+
         print(f"\nExtraction complete! Output files: {', '.join(outputs)}")
-        
+
         if run_compliance and COMPLIANCE_AVAILABLE and 'compliance_results' in locals():
             return 0 if compliance_results['overall_score'] >= 70 else 1
-        
+
         return 0
-        
+
     except Exception as e:
         print(f"Error: {e}")
         return 1
