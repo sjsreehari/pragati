@@ -79,6 +79,7 @@ def clean_text(text: str) -> str:
         lines.pop(0)
     while lines and not lines[-1].strip():
         lines.pop()
+        
     
     cleaned_text = '\n'.join(lines)
     cleaned_text = re.sub(r'(\w)-\s*\n\s*(\w)', r'\1\2', cleaned_text)
