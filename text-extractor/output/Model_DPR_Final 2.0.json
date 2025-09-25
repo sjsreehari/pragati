@@ -1,132 +1,16 @@
 {
   "metadata": {
     "original_filename": "Model_DPR_Final 2.0.pdf",
-    "extraction_timestamp": "2025-09-25T09:43:07.155110",
+    "extraction_timestamp": "2025-09-25T09:51:28.658143",
     "extraction_method": "pdf_extraction",
     "raw_text_length": 76455,
     "cleaned_text_length": 64920,
     "output_format": "json",
-    "has_index": true
+    "has_index": false
   },
-  "index": [
-    {
-      "index": 1,
-      "title": "INTRODUCTION ABOUT THE PROJECT",
-      "page_number": "N/A"
-    },
-    {
-      "index": 2,
-      "title": "Member",
-      "page_number": "N/A"
-    },
-    {
-      "index": 3,
-      "title": "Members Salary",
-      "page_number": "N/A"
-    },
-    {
-      "index": 4,
-      "title": "Mobile APPs",
-      "page_number": "N/A"
-    },
-    {
-      "index": 5,
-      "title": "Media Desk",
-      "page_number": "N/A"
-    },
-    {
-      "index": 6,
-      "title": "Stakeholders Of The Project At",
-      "page_number": "N/A"
-    },
-    {
-      "index": 7,
-      "title": "Hon",
-      "page_number": "N/A"
-    },
-    {
-      "index": 8,
-      "title": "Member State Legislature",
-      "page_number": "N/A"
-    },
-    {
-      "index": 9,
-      "title": "Secretary in Charge",
-      "page_number": "N/A"
-    },
-    {
-      "index": 10,
-      "title": "Secretary",
-      "page_number": "N/A"
-    },
-    {
-      "index": 11,
-      "title": "Any other person nominated by the Speaker",
-      "page_number": "N/A"
-    },
-    {
-      "index": 12,
-      "title": "Secretary Parliamentary Affairs Dept",
-      "page_number": "N/A"
-    },
-    {
-      "index": 13,
-      "title": "State Informatics Officer",
-      "page_number": "N/A"
-    },
-    {
-      "index": 14,
-      "title": "Representative of NICSI at State",
-      "page_number": "N/A"
-    },
-    {
-      "index": 15,
-      "title": "Joint Secretary",
-      "page_number": "N/A"
-    },
-    {
-      "index": 16,
-      "title": "Any other person nominated by Chairman",
-      "page_number": "N/A"
-    },
-    {
-      "index": 17,
-      "title": "Overview Of The Online System",
-      "page_number": "N/A"
-    },
-    {
-      "index": 18,
-      "title": "Online System",
-      "page_number": "N/A"
-    },
-    {
-      "index": 19,
-      "title": "Project Execution& Estimated",
-      "page_number": "N/A"
-    },
-    {
-      "index": 20,
-      "title": "Ups",
-      "page_number": "N/A"
-    },
-    {
-      "index": 21,
-      "title": "Lan N",
-      "page_number": "N/A"
-    },
-    {
-      "index": 22,
-      "title": "Wan L",
-      "page_number": "41"
-    },
-    {
-      "index": 23,
-      "title": "Nicsi C",
-      "page_number": "N/A"
-    }
-  ],
+  "index": [],
   "statistics": {
-    "total_index_items": 23,
+    "total_index_items": 0,
     "total_characters": 64920,
     "total_words": 9545,
     "total_lines": 2748,
