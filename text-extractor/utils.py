@@ -94,6 +94,10 @@ def create_json_file(filename: str) -> str:
 def save_text_as_json(text: str, filename: str, original_filename: str, extraction_method: str = "text") -> Dict:
     cleaned_text = clean_text(text)
     index_structure = extract_document_index(text)
+    
+    json_data = {
+        "metadata": {
+            "original_filename": original_filename,
             "extraction_timestamp": datetime.now().isoformat(),
             "extraction_method": extraction_method,
             "raw_text_length": len(text),

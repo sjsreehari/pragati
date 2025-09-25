@@ -156,7 +156,6 @@ class DPRComplianceChecker:
             "recommendations": []
         }
         
-        # Check each required section
         total_weighted_score = 0
         total_weight = 0
         
@@ -170,10 +169,8 @@ class DPRComplianceChecker:
             
             section_score = 0
             if section_match["found"]:
-                # Base score from confidence
                 section_score = section_match["confidence"] * 100
                 
-                # Bonus for content length (indicates detailed coverage)
                 content_words = len(section_match["content"].split())
                 if content_words > 100:
                     section_score = min(section_score + 10, 100)
