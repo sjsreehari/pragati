@@ -1,9 +1,9 @@
 {
   "metadata": {
     "original_filename": "Model_DPR_Final 2.0.pdf",
-    "extraction_timestamp": "2025-09-25T10:03:48.515680",
+    "extraction_timestamp": "2025-09-25T10:33:50.620606",
     "extraction_method": "pdf_extraction",
-    "raw_text_length": 76455,
+    "raw_text_length": 64920,
     "cleaned_text_length": 64920,
     "output_format": "json",
     "has_index": true
