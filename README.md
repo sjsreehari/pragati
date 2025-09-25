@@ -1,5 +1,5 @@
-# Pragati
 # PRAGATI
+
 ![DPR Analysis](https://img.shields.io/badge/DPR%20Analysis-AI%20Platform-blue)
 ![ML Accuracy](https://img.shields.io/badge/ML%20Accuracy-91%25-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
