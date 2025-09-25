@@ -12,9 +12,25 @@ class DPRPredictor:
     
     def __init__(self, model_path="models/dpr_model.pkl"):
         """Initialize the predictor with pre-trained models"""
+        # Handle relative paths properly
+        if not os.path.isabs(model_path) and not os.path.exists(model_path):
+            # If we're in src/, go up one level to ai/
+            model_path = os.path.join("..", model_path)
+            
         self.model = joblib.load(model_path)
-        self.tfidf = load_vectorizer()
-        self.encoder = load_encoder()
+        
+        # Load vectorizer and encoder with proper paths
+        model_dir = os.path.dirname(model_path)
+        tfidf_path = os.path.join(model_dir, "tfidf.pkl")
+        encoder_path = os.path.join(model_dir, "encoder.pkl")
+        
+        if not os.path.exists(tfidf_path):
+            tfidf_path = os.path.join("..", "models", "tfidf.pkl")
+        if not os.path.exists(encoder_path):
+            encoder_path = os.path.join("..", "models", "encoder.pkl")
+            
+        self.tfidf = joblib.load(tfidf_path)
+        self.encoder = joblib.load(encoder_path)
         
         # Get feature names for explanations
         self.feature_names = (list(self.tfidf.get_feature_names_out()) + 
@@ -269,7 +285,14 @@ def create_predictor(model_path="models/dpr_model.pkl"):
 # Example usage and testing
 if __name__ == "__main__":
     # Test the enhanced predictor
-    predictor = DPRPredictor()
+    import os
+    model_path = os.path.join("..", "models", "dpr_model.pkl")
+    if not os.path.exists(model_path):
+        print(f"❌ Model not found at: {model_path}")
+        print("Please train the model first using: python train.py")
+        exit(1)
+        
+    predictor = DPRPredictor(model_path)
     
     # Test case 1: Feasible project
     test_text_1 = "Construction of primary health center in rural area. Budget ₹5 crores. Timeline 18 months. Government approved project with all clearances."
