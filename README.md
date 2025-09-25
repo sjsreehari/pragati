@@ -1,4 +1,12 @@
 # Pragati
+# PRAGATI
+![DPR Analysis](https://img.shields.io/badge/DPR%20Analysis-AI%20Platform-blue)
+![ML Accuracy](https://img.shields.io/badge/ML%20Accuracy-91%25-brightgreen)
+![License](https://img.shields.io/badge/License-MIT-blue.svg)
+![Python Version](https://img.shields.io/badge/Python-3.11+-green)
+![React](https://img.shields.io/badge/React-18.2.0-61dafb)
+![XGBoost](https://img.shields.io/badge/XGBoost-3.0.5-orange)
+
 **Project Review and Governance AI-based Transparency Interface**
 
 An enterprise-grade AI platform for automated Detailed Project Report (DPR) analysis with ML-driven feasibility assessment and governance compliance validation.
