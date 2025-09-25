@@ -17,6 +17,7 @@ sys.path.append(AI_SRC_PATH)
 
 # Import enhanced prediction module
 try:
+    import os  # Ensure os is imported before using it
     from enhanced_predict import create_predictor
     PREDICTOR_AVAILABLE = True
     # Initialize predictor at startup
@@ -28,7 +29,7 @@ except Exception as e:
     print(f"Warning: AI Predictor not available: {e}")
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app, origins=["http://localhost:3000"], methods=["GET", "POST", "OPTIONS"], allow_headers=["Content-Type"])  # Enable CORS for all routes
 
 # Configuration
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'uploads')

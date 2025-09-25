@@ -3,7 +3,14 @@ import os
 import sys
 import argparse
 from pathlib import Path
-from deep_translator import GoogleTranslator
+
+# Try to import GoogleTranslator, make it optional
+try:
+    from deep_translator import GoogleTranslator
+    TRANSLATOR_AVAILABLE = True
+except ImportError:
+    TRANSLATOR_AVAILABLE = False
+    print("Warning: deep_translator not available. Translation features disabled.")
 
 try:
     from compliance_checker import DPRComplianceChecker
@@ -49,8 +56,12 @@ def main():
         translated_text = clean_text_content
         if translate:
             try:
-                print("Translating extracted text to English...")
-                translated_text = GoogleTranslator(source='auto', target='en').translate(clean_text_content)
+                if TRANSLATOR_AVAILABLE:
+                    print("Translating extracted text to English...")
+                    translated_text = GoogleTranslator(source='auto', target='en').translate(clean_text_content)
+                else:
+                    print("Translation not available - deep_translator not installed")
+                    translated_text = clean_text_content  # fallback
             except Exception as e:
                 print(f"Translation failed: {e}")
                 translated_text = clean_text_content  # fallback
