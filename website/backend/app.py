@@ -7,6 +7,25 @@ import json
 from werkzeug.utils import secure_filename
 import shutil
 from pathlib import Path
+import sys
+
+# Add AI module path for imports
+BACKEND_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(os.path.dirname(BACKEND_DIR))
+AI_SRC_PATH = os.path.join(PROJECT_ROOT, 'ai', 'src')
+sys.path.append(AI_SRC_PATH)
+
+# Import enhanced prediction module
+try:
+    from enhanced_predict import create_predictor
+    PREDICTOR_AVAILABLE = True
+    # Initialize predictor at startup
+    AI_MODELS_PATH = os.path.join(PROJECT_ROOT, 'ai', 'models')
+    predictor = create_predictor(os.path.join(AI_MODELS_PATH, 'dpr_model.pkl'))
+except Exception as e:
+    PREDICTOR_AVAILABLE = False
+    predictor = None
+    print(f"Warning: AI Predictor not available: {e}")
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -36,15 +55,24 @@ def allowed_file(filename):
 def home():
     """API documentation endpoint"""
     return jsonify({
-        'name': 'PDF Text Extractor API',
-        'version': '1.0.0',
-        'description': 'Flask backend for PDF text extraction',
+        'name': 'DPR Feasibility Analysis API',
+        'version': '2.0.0',
+        'description': 'Flask backend for PDF text extraction and AI-powered DPR feasibility analysis',
         'endpoints': {
-            'POST /api/extract': 'Upload PDF and extract text',
+            'POST /api/extract': 'Upload PDF, extract text, and get AI feasibility prediction',
+            'POST /api/predict': 'Get AI prediction for provided text',
             'GET /api/health': 'Health check endpoint',
             'GET /': 'This documentation'
         },
-        'status': 'running'
+        'features': [
+            'PDF text extraction',
+            'AI-powered feasibility prediction',
+            'Confidence scoring',
+            'Feature-based explanations',
+            'Multi-language support (coming soon)'
+        ],
+        'status': 'running',
+        'ai_available': PREDICTOR_AVAILABLE
     })
 
 @app.route('/api/health', methods=['GET'])
@@ -54,8 +82,53 @@ def health_check():
         'status': 'healthy',
         'message': 'Flask server is running',
         'text_extractor_available': os.path.exists(os.path.join(TEXT_EXTRACTOR_PATH, 'main.py')),
-        'python_venv_available': os.path.exists(PYTHON_VENV_PATH)
+        'python_venv_available': os.path.exists(PYTHON_VENV_PATH),
+        'ai_predictor_available': PREDICTOR_AVAILABLE,
+        'ai_models_available': os.path.exists(os.path.join(PROJECT_ROOT, 'ai', 'models', 'dpr_model.pkl'))
     })
+
+@app.route('/api/predict', methods=['POST'])
+def predict_dpr():
+    """AI-powered DPR feasibility prediction endpoint"""
+    try:
+        if not PREDICTOR_AVAILABLE:
+            return jsonify({'error': 'AI Predictor not available'}), 503
+        
+        # Get text from request
+        data = request.get_json()
+        if not data or 'text' not in data:
+            return jsonify({'error': 'Text field required in JSON body'}), 400
+        
+        text = data.get('text', '')
+        include_translation = data.get('include_translation', False)
+        target_lang = data.get('target_lang', 'en')
+        
+        if not text.strip():
+            return jsonify({'error': 'Text cannot be empty'}), 400
+        
+        # Get prediction with explanation
+        result = predictor.predict_with_explanation(
+            text, 
+            include_translation=include_translation,
+            target_lang=target_lang
+        )
+        
+        if 'error' in result:
+            return jsonify({'success': False, 'error': result['error']}), 500
+        
+        return jsonify({
+            'success': True,
+            'data': result,
+            'message': 'Prediction completed successfully'
+        })
+    
+    except Exception as e:
+        print(f"Prediction error: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': 'Prediction service failed',
+            'details': str(e)
+        }), 500
 
 @app.route('/api/extract', methods=['POST'])
 def extract_text():
@@ -163,12 +236,47 @@ def extract_text():
                 extracted_data['jsonFilename'] = f"{base_name}.json"
             
             # Return the results in the format expected by frontend
-            return jsonify({
+            response_data = {
                 'success': True,
                 'filename': filename,
                 'message': 'PDF processed successfully',
                 **extracted_data
-            })
+            }
+            
+            # Add AI prediction if available and text was extracted
+            if PREDICTOR_AVAILABLE and 'txtContent' in extracted_data:
+                try:
+                    # Get AI prediction for the extracted text
+                    prediction_result = predictor.predict_with_explanation(
+                        extracted_data['txtContent']
+                    )
+                    
+                    if 'error' not in prediction_result:
+                        response_data['prediction'] = {
+                            'feasibility': prediction_result['prediction'],
+                            'confidence': prediction_result['confidence'],
+                            'probability_scores': prediction_result['probability_scores'],
+                            'explanation': prediction_result['explanation'],
+                            'ai_analysis_available': True
+                        }
+                    else:
+                        response_data['prediction'] = {
+                            'ai_analysis_available': False,
+                            'error': prediction_result['error']
+                        }
+                        
+                except Exception as e:
+                    response_data['prediction'] = {
+                        'ai_analysis_available': False,
+                        'error': f'AI analysis failed: {str(e)}'
+                    }
+            else:
+                response_data['prediction'] = {
+                    'ai_analysis_available': False,
+                    'reason': 'AI predictor not available or text extraction failed'
+                }
+            
+            return jsonify(response_data)
     
     except Exception as e:
         print(f"Unexpected error: {str(e)}")

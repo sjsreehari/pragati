@@ -20,10 +20,17 @@ joblib>=1.5.2
 # Text processing
 regex>=2025.9.15
 
+# Explainability and interpretation
+shap>=0.42.1
+
+# Translation support (optional)
+googletrans>=4.0.0
+
 # Web framework integration
 flask>=2.3.3
 fastapi>=0.109.1
 uvicorn>=0.23.2
+flask-cors>=4.0.0
 
 # Development & Testing
 jupyter>=1.1.1

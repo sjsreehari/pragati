@@ -94,8 +94,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>PDF Text Extractor</h1>
-        <p>Upload a PDF file to extract text and structured data</p>
+        <h1>DPR Feasibility Analysis System</h1>
+        <p>Upload a PDF file to extract text and get AI-powered feasibility analysis</p>
       </header>
 
       <main className="main-content">
@@ -136,13 +136,103 @@ function App() {
             disabled={!file || loading}
             className="extract-button"
           >
-            {loading ? 'Processing...' : 'Extract Text'}
+            {loading ? 'Processing...' : 'Upload and Analyze'}
           </button>
         </div>
 
         {results && (
           <div className="results-section">
-            <h2>Extraction Results</h2>
+            <h2>Analysis Results</h2>
+            
+            {/* AI Prediction Section */}
+            {results.prediction && results.prediction.ai_analysis_available && (
+              <div className="prediction-section">
+                <div className={`prediction-card ${results.prediction.feasibility.toLowerCase()}`}>
+                  <div className="prediction-header">
+                    <h3>🤖 AI Feasibility Assessment</h3>
+                    <div className={`prediction-badge ${results.prediction.feasibility.toLowerCase()}`}>
+                      {results.prediction.feasibility.toUpperCase()}
+                    </div>
+                  </div>
+                  
+                  <div className="prediction-details">
+                    <div className="confidence-section">
+                      <div className="confidence-score">
+                        <span className="confidence-label">Confidence:</span>
+                        <div className="confidence-bar-container">
+                          <div 
+                            className="confidence-bar" 
+                            style={{width: `${results.prediction.confidence * 100}%`}}
+                          ></div>
+                          <span className="confidence-text">
+                            {(results.prediction.confidence * 100).toFixed(1)}%
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <div className="probability-scores">
+                        <div className="prob-score feasible">
+                          <span>Feasible: {(results.prediction.probability_scores.feasible * 100).toFixed(1)}%</span>
+                        </div>
+                        <div className="prob-score risky">
+                          <span>Risky: {(results.prediction.probability_scores.risky * 100).toFixed(1)}%</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {results.prediction.explanation && (
+                      <div className="explanation-section">
+                        <h4>📊 Analysis Explanation</h4>
+                        <p className="interpretation">
+                          {results.prediction.explanation.interpretation}
+                        </p>
+                        
+                        {results.prediction.explanation.top_features && results.prediction.explanation.top_features.length > 0 && (
+                          <div className="features-section">
+                            <h5>Key Factors:</h5>
+                            <div className="features-list">
+                              {results.prediction.explanation.top_features.map((feature, index) => (
+                                <div key={index} className={`feature-item ${feature.type}`}>
+                                  <span className="feature-name">{feature.feature}</span>
+                                  <span className="feature-importance">
+                                    Impact: {(feature.importance * 100).toFixed(1)}%
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                        
+                        {results.prediction.explanation.numeric_features && (
+                          <div className="numeric-features">
+                            <h5>Project Details:</h5>
+                            <div className="numeric-grid">
+                              <div className="numeric-item">
+                                <span>Budget:</span>
+                                <span>₹{results.prediction.explanation.numeric_features.budget_crores} crores</span>
+                              </div>
+                              <div className="numeric-item">
+                                <span>Timeline:</span>
+                                <span>{results.prediction.explanation.numeric_features.timeline_months} months</span>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {results.prediction && !results.prediction.ai_analysis_available && (
+              <div className="prediction-unavailable">
+                <div className="prediction-card unavailable">
+                  <h3>⚠️ AI Analysis Unavailable</h3>
+                  <p>{results.prediction.error || results.prediction.reason || 'AI prediction service is not available'}</p>
+                </div>
+              </div>
+            )}
             
             <div className="results-grid">
               <div className="result-card">
