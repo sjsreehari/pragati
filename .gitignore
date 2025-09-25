@@ -33,6 +33,19 @@ ENV/
 env.bak/
 venv.bak/
 
+# ========================
+# Project Specific
+# ========================
+# Configuration files with sensitive data
+config.json
+secrets.json
+.env.production
+
+# Test outputs and temporary files
+test_output/
+temp/
+*.tmp
+
 # IDE and editors
 .vscode/
 .idea/
@@ -138,10 +151,42 @@ pnpm-debug.log*
 .env.production.local
 
 # ========================
-# ML / Model storage
+# ML / AI Model storage
 # ========================
-models/*.pkl
-models/*.joblib
+# Trained models (keep structure but ignore trained files)
+ai/models/*.pkl
+ai/models/*.joblib
+ai/models/*.json
+ai/models/*.model
+
+# Large datasets (keep small sample data)
+ai/data/*.csv.backup
+ai/data/large_*.csv
+ai/data/*_backup.csv
+
+# Model checkpoints and temporary files
+*.ckpt
+*.checkpoint
+*.tmp.csv
+
+# TensorFlow/PyTorch specific
+*.pb
+*.pth
+*.pt
+
+# ========================
+# Document Processing Output
+# ========================
+# Text extractor outputs
+text-extractor/output/*.txt
+text-extractor/output/*.json
+text-extractor/input/*.pdf.backup
+
+# Website backend uploads
+website/backend/uploads/*
+website/backend/output/*
+!website/backend/uploads/.gitkeep
+!website/backend/output/.gitkeep
 
 # ========================
 # OS generated
