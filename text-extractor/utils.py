@@ -105,6 +105,10 @@ def save_text_as_json(text: str, filename: str, original_filename: str, extracti
             "output_format": "json",
             "has_index": len(index_structure) > 0
         },
+        "content": {
+            "full_text": cleaned_text,
+            "raw_text": text
+        },
         "index": index_structure,
         "statistics": {
             "total_index_items": len(index_structure),

@@ -16,15 +16,15 @@ OUTPUT_DIR = "output"
 def main():
     parser = argparse.ArgumentParser(description="Extract text from DPR documents with support for multiple output formats")
     parser.add_argument("filename", help="Input filename (relative to input/ directory)")
-    parser.add_argument("--format", "-f", choices=["txt", "json", "both"], default="json", 
-                       help="Output format: txt, json, or both (default: json)")
+    parser.add_argument("--format", "-f", choices=["txt", "json", "both"], default="both", 
+                       help="Output format: txt, json, or both (default: both)")
     parser.add_argument("--compliance", "-c", action="store_true", help="Run MDONER/NEC DPR compliance check")
     parser.add_argument("--html-report", action="store_true", help="Generate HTML compliance report")
     
     # Handle legacy usage (backward compatibility)
     if len(sys.argv) == 2 and not sys.argv[1].startswith('-'):
         filename = sys.argv[1]
-        output_format = "json"
+        output_format = "both"
         run_compliance = False
         generate_html = False
     else:
