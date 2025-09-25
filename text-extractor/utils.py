@@ -144,86 +144,63 @@ def extract_document_index(text: str) -> List[Dict]:
         if not line or re.search(r'^(sr\s*no|page\s*no|content)$', line, re.IGNORECASE):
             continue
         
-        # Stop at introduction or first chapter
-        if re.search(r'^(1\.|1\s+).*introduction', line, re.IGNORECASE):
-            # Add this as first item if it has page number
-            match = re.search(r'^(\d+\.?\s*)(.*)', line)
-            if match:
-                title = match.group(2).strip()
-                # Look for page number in surrounding lines
-                page_num = "N/A"
-                for j in range(max(0, i-2), min(len(lines), i+3)):
-                    if re.search(r'\b\d+\s*$', lines[j]):
-                        page_match = re.search(r'(\d+)\s*$', lines[j])
-                        if page_match:
-                            page_num = page_match.group(1)
-                            break
+        # Look for numbered entries in table of contents
+        # Pattern: "1" or "2" etc. on separate lines
+        if re.match(r'^[1-8]$', line):
+            # Get the title from next non-empty line
+            title = ""
+            page_num = "N/A"
+            
+            for j in range(i+1, min(len(lines), i+10)):
+                next_line = lines[j].strip()
+                if not next_line:
+                    continue
+                    
+                # Skip "2", "3", etc. - these are other entry numbers
+                if re.match(r'^[1-8]$', next_line):
+                    break
+                    
+                # If it looks like a title (starts with capital letter)
+                if re.match(r'^[A-Z]', next_line) and len(next_line) > 3:
+                    title = next_line
+                    break
+            
+            if title:
+                # Clean up the title
+                title = re.sub(r'\s+', ' ', title)
+                if title.isupper():
+                    title = title.title()
                 
                 index_items.append({
                     "item_number": len(index_items) + 1,
                     "title": title,
                     "page_number": page_num
                 })
-            break
         
-        # Pattern 1: "1 TITLE" followed by page number on next line or same line
-        match1 = re.match(r'^(\d+)\s+([A-Z][A-Z\s&]+(?:[a-z][a-z\s]*)?)\s*(\d+)?$', line)
-        if match1:
-            item_num = match1.group(1)
-            title = match1.group(2).strip()
-            page_num = match1.group(3) if match1.group(3) else "N/A"
+        # Also look for the format like "INTRODUCTION ABOUT THE PROJECT"
+        elif re.match(r'^[A-Z][A-Z\s&]+[A-Z]$', line) and len(line) > 10:
+            title = line
+            page_num = "N/A"
             
-            # If no page number on same line, check next few lines
-            if page_num == "N/A":
-                for j in range(i+1, min(len(lines), i+4)):
-                    next_line = lines[j].strip()
-                    if re.match(r'^\d+$', next_line):
-                        page_num = next_line
-                        break
-            
-            # Clean title
+            # Clean up the title
             title = re.sub(r'\s+', ' ', title)
-            if title.isupper():
-                title = title.title()
+            title = title.title()
             
-            if title and len(title) > 2:
-                index_items.append({
-                    "item_number": len(index_items) + 1,
-                    "title": title,
-                    "page_number": page_num
-                })
+            index_items.append({
+                "item_number": len(index_items) + 1,
+                "title": title,
+                "page_number": page_num
+            })
         
-        # Pattern 2: Standalone numbers (index numbers)
-        elif re.match(r'^\d+$', line):
-            # Look at next line for title
-            if i + 1 < len(lines):
-                next_line = lines[i + 1].strip()
-                # Check if next line is a title
-                if re.match(r'^[A-Z][A-Za-z\s&]+', next_line) and len(next_line) > 3:
-                    title = next_line
-                    page_num = "N/A"
-                    
-                    # Look for page number in next few lines
-                    for j in range(i+2, min(len(lines), i+5)):
-                        page_line = lines[j].strip()
-                        if re.match(r'^\d+$', page_line):
-                            page_num = page_line
-                            break
-                    
-                    # Clean title
-                    title = re.sub(r'\s+', ' ', title)
-                    if title.isupper():
-                        title = title.title()
-                    
-                    index_items.append({
-                        "item_number": len(index_items) + 1,
-                        "title": title,
-                        "page_number": page_num
-                    })
+        # Stop when we reach the first actual chapter/section
+        if re.search(r'^1\.\s*introduction', line, re.IGNORECASE):
+            break
     
     # If no TOC found with standard patterns, try to extract major headings
-    if not toc_found or not index_items:
-        index_items = extract_headings_from_content(text)
+    if not toc_found or len(index_items) < 2:
+        headings = extract_headings_from_content(text)
+        if len(headings) > len(index_items):
+            index_items = headings
     
     return index_items
 
