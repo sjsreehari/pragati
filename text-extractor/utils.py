@@ -79,7 +79,7 @@ def clean_text(text: str) -> str:
         lines.pop(0)
     while lines and not lines[-1].strip():
         lines.pop()
-        
+
     
     cleaned_text = '\n'.join(lines)
     cleaned_text = re.sub(r'(\w)-\s*\n\s*(\w)', r'\1\2', cleaned_text)
@@ -174,6 +174,7 @@ def extract_document_index(text: str) -> List[Dict]:
                         "page_number": page_num
                     })
                     break
+        
         
         # Alternative pattern: "1. TITLE" format
         match = re.match(r'^(\d+)\.\s*(.+)$', line)
