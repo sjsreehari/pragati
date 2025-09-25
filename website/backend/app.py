@@ -312,14 +312,14 @@ def internal_error(e):
     return jsonify({'error': 'Internal server error'}), 500
 
 if __name__ == '__main__':
-    print("🚀 Flask server starting...")
-    print(f"📁 Upload folder: {os.path.abspath(UPLOAD_FOLDER)}")
-    print(f"🐍 Text extractor path: {os.path.abspath(TEXT_EXTRACTOR_PATH)}")
-    print(f"🐍 Python venv path: {PYTHON_VENV_PATH}")
-    print(f"📊 Text extractor main.py exists: {os.path.exists(os.path.join(TEXT_EXTRACTOR_PATH, 'main.py'))}")
-    print(f"🐍 Python venv exists: {os.path.exists(PYTHON_VENV_PATH)}")
-    print("📖 API Documentation: http://localhost:5000/")
-    print("💚 Health Check: http://localhost:5000/api/health")
-    print("🔄 File Upload: POST http://localhost:5000/api/extract")
+    print("Flask server starting...")
+    print(f"Upload folder: {os.path.abspath(UPLOAD_FOLDER)}")
+    print(f"Text extractor path: {os.path.abspath(TEXT_EXTRACTOR_PATH)}")
+    print(f"Python venv path: {PYTHON_VENV_PATH}")
+    print(f"Text extractor main.py exists: {os.path.exists(os.path.join(TEXT_EXTRACTOR_PATH, 'main.py'))}")
+    print(f"Python venv exists: {os.path.exists(PYTHON_VENV_PATH)}")
+    print("API Documentation: http://localhost:5000/")
+    print("Health Check: http://localhost:5000/api/health")
+    print("File Upload: POST http://localhost:5000/api/extract")
     
     app.run(host='0.0.0.0', port=5000, debug=True)

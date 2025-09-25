@@ -13,18 +13,18 @@ sys.path.append(ai_src_path)
 
 try:
     from enhanced_predict import DPRPredictor
-    print("✅ Successfully imported enhanced_predict module")
+    print(" Successfully imported enhanced_predict module")
     
     # Test predictor initialization
     try:
         model_path = os.path.join(project_root, 'ai', 'models', 'dpr_model.pkl')
         if not os.path.exists(model_path):
-            print(f"❌ Model file not found at: {model_path}")
+            print(f" Model file not found at: {model_path}")
             print("Please ensure the model is trained and saved.")
             sys.exit(1)
             
         predictor = DPRPredictor(model_path)
-        print("✅ Successfully initialized DPR Predictor")
+        print(" Successfully initialized DPR Predictor")
         
         # Test prediction with sample data
         test_cases = [
@@ -50,13 +50,13 @@ try:
                 result = predictor.predict_with_explanation(test_case['text'])
                 
                 if 'error' in result:
-                    print(f"❌ Prediction failed: {result['error']}")
+                    print(f" Prediction failed: {result['error']}")
                     continue
                 
-                print(f"✅ Prediction: {result['prediction']}")
-                print(f"✅ Confidence: {result['confidence']:.3f}")
-                print(f"✅ Feasible Score: {result['probability_scores']['feasible']:.3f}")
-                print(f"✅ Risky Score: {result['probability_scores']['risky']:.3f}")
+                print(f" Prediction: {result['prediction']}")
+                print(f" Confidence: {result['confidence']:.3f}")
+                print(f" Feasible Score: {result['probability_scores']['feasible']:.3f}")
+                print(f" Risky Score: {result['probability_scores']['risky']:.3f}")
                 
                 if 'explanation' in result and result['explanation']:
                     exp = result['explanation']
@@ -79,9 +79,9 @@ try:
         missing_fields = [field for field in required_fields if field not in sample_result]
         
         if missing_fields:
-            print(f"❌ Missing fields in API response: {missing_fields}")
+            print(f" Missing fields in API response: {missing_fields}")
         else:
-            print("✅ All required fields present in API response")
+            print(" All required fields present in API response")
             
         # Test explanation structure
         if 'explanation' in sample_result:
@@ -90,9 +90,9 @@ try:
             exp_missing = [field for field in exp_required if field not in exp]
             
             if exp_missing:
-                print(f"⚠️  Missing explanation fields: {exp_missing}")
+                print(f"  Missing explanation fields: {exp_missing}")
             else:
-                print("✅ Complete explanation structure")
+                print(" Complete explanation structure")
         
         print("\n🎉 Enhanced prediction module test completed successfully!")
         print("\nNext steps:")
@@ -102,12 +102,12 @@ try:
         print("4. Upload a PDF to test the complete system")
         
     except Exception as e:
-        print(f"❌ Failed to initialize predictor: {str(e)}")
+        print(f" Failed to initialize predictor: {str(e)}")
         import traceback
         traceback.print_exc()
         
 except ImportError as e:
-    print(f"❌ Failed to import enhanced_predict: {str(e)}")
+    print(f" Failed to import enhanced_predict: {str(e)}")
     print("Please ensure:")
     print("1. The ai/src/enhanced_predict.py file exists")
     print("2. The required dependencies are installed")
