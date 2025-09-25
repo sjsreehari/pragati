@@ -1,12 +1,7 @@
-# PRAGATI
+# Pragati
 **Project Review and Governance AI-based Transparency Interface**
 
 An enterprise-grade AI platform for automated Detailed Project Report (DPR) analysis with ML-driven feasibility assessment and governance compliance validation.
-
-## System Architecture
-
-<img src="./assets/Mermaid%20Chart%20-%20Create%20complex%2C%20visual%20diagrams%20with%20text.%20A%20smarter%20way%20of%20creating%20diagrams.-2025-09-25-105253.png" alt="System Architecture Diagram" width="800">
-
 
 ## Core Technologies
 
@@ -18,6 +13,12 @@ An enterprise-grade AI platform for automated Detailed Project Report (DPR) anal
 | **Backend API** | Flask 2.3.3 + Flask-CORS 4.0.0 | RESTful services & CORS handling |
 | **Frontend** | React 18.2.0 + Chart.js 4.4.0 | Interactive dashboard with real-time viz |
 | **Charts Integration** | react-chartjs-2 3.3.0 | Doughnut, Bar, Line charts for insights |
+
+
+## System Architecture
+
+<img src="./assets/Mermaid%20Chart%20-%20Create%20complex%2C%20visual%20diagrams%20with%20text.%20A%20smarter%20way%20of%20creating%20diagrams.-2025-09-25-105253.png" alt="System Architecture Diagram" width="800">
+
 
 ## Machine Learning Pipeline
 
