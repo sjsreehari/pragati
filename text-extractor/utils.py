@@ -32,7 +32,7 @@ def load_file(input_path: str) -> Any:
     else:
         raise ValueError("Unsupported file format. Only PDF and Word files are supported.")
 
-def extract_text(file: Any) -> str:
+def extract_text(file: Any, file_path: str = None) -> str:
     if isinstance(file, str) and file.lower().endswith(".pdf"):
         if pdf_extract_text:
             text = pdf_extract_text(file)
