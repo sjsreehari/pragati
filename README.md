@@ -18,7 +18,7 @@ An enterprise-grade AI platform for automated Detailed Project Report (DPR) anal
 | **ML Engine** | XGBoost 3.0.5 + scikit-learn 1.7.2 | Feasibility classification (91% accuracy) |
 | **NLP Pipeline** | TF-IDF + pandas 2.3.0 | Feature extraction & text vectorization |
 | **Document Processing** | pdfminer.six + pytesseract | PDF parsing & OCR processing |
-| **Backend API** | Flask 2.3.3 + Flask-CORS 4.0.0 | RESTful services & CORS handling |
+| **Backend API** | Flask 2.3.3 | RESTful services & CORS handling |
 | **Frontend** | React 18.2.0 + Chart.js 4.4.0 | Interactive dashboard with real-time viz |
 | **Charts Integration** | react-chartjs-2 3.3.0 | Doughnut, Bar, Line charts for insights |
 
