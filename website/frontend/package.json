@@ -34,6 +34,16 @@
   },
   "proxy": "http://localhost:5000",
   "devDependencies": {
+    "@babel/preset-env": "^7.22.0",
+    "@babel/preset-react": "^7.22.0",
+    "babel-jest": "^27.5.1",
     "eslint-config-react-app": "^7.0.1"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
+    },
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": ["@testing-library/jest-dom"]
   }
 }
