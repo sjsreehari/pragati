@@ -1,9 +1,15 @@
 # PRAGATI
+
+![DPR Analysis](https://img.shields.io/badge/DPR%20Analysis-AI%20Platform-blue)
+![ML Accuracy](https://img.shields.io/badge/ML%20Accuracy-91%25-brightgreen)
+![License](https://img.shields.io/badge/License-MIT-blue.svg)
+![Python Version](https://img.shields.io/badge/Python-3.11+-green)
+![React](https://img.shields.io/badge/React-18.2.0-61dafb)
+![XGBoost](https://img.shields.io/badge/XGBoost-3.0.5-orange)
+
 **Project Review and Governance AI-based Transparency Interface**
 
 An enterprise-grade AI platform for automated Detailed Project Report (DPR) analysis with ML-driven feasibility assessment and governance compliance validation.
-
-## System Architecture
 
 ## Core Technologies
 
@@ -12,9 +18,15 @@ An enterprise-grade AI platform for automated Detailed Project Report (DPR) anal
 | **ML Engine** | XGBoost 3.0.5 + scikit-learn 1.7.2 | Feasibility classification (91% accuracy) |
 | **NLP Pipeline** | TF-IDF + pandas 2.3.0 | Feature extraction & text vectorization |
 | **Document Processing** | pdfminer.six + pytesseract | PDF parsing & OCR processing |
-| **Backend API** | Flask 2.3.3 + Flask-CORS 4.0.0 | RESTful services & CORS handling |
+| **Backend API** | Flask 2.3.3 | RESTful services & CORS handling |
 | **Frontend** | React 18.2.0 + Chart.js 4.4.0 | Interactive dashboard with real-time viz |
 | **Charts Integration** | react-chartjs-2 3.3.0 | Doughnut, Bar, Line charts for insights |
+
+
+## System Architecture
+
+<img src="./assets/Mermaid%20Chart%20-%20Create%20complex%2C%20visual%20diagrams%20with%20text.%20A%20smarter%20way%20of%20creating%20diagrams.-2025-09-25-105253.png" alt="System Architecture Diagram" width="800">
+
 
 ## Machine Learning Pipeline
 
